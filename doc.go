@@ -19,10 +19,10 @@ Creating a widget is easy:
 		text := widgets.NewText("example-widget", "hello world", true, true, w/2, h/2)
 
 		g.SetManager(text)
-	}
 
-	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
-		panic(err)
+		if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
+			panic(err)
+		}
 	}
 */
 package widgets
