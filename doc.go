@@ -5,7 +5,7 @@ Creating a widget is easy:
 
 	import (
 		"github.com/jroimartin/gocui"
-		widgets "github.com/shilangyu/gocui-widgets"
+		"github.com/shilangyu/gocui-widgets"
 	)
 
 	func main() {
@@ -16,7 +16,7 @@ Creating a widget is easy:
 		defer g.Close()
 
 		w, h := g.Size()
-		text := widgets.NewText("example-widget", "hello world", true, true, w/2, h/2)
+		textWi := widgets.NewText("example-widget", "hello world", true, true, w/2, h/2)
 
 		g.SetManager(text)
 
