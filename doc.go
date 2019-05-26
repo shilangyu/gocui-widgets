@@ -24,5 +24,6 @@ Creating a widget is easy:
 			panic(err)
 		}
 	}
+To see more please visit '_examples/'
 */
 package widgets
