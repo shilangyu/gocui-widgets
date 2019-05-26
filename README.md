@@ -4,12 +4,17 @@
 
 Set of gocui widgets to help you build TUI apps. It is meant to use **with** [gocui](https://github.com/jroimartin/gocui) not instead.
 
+```sh
+go get github.com/shilangyu/gocui-widgets
+```
+
 - [usage](#usage)
 - [widgets](#widgets)
   - [Text](#Text)
   - [Collection](#Collection)
   - [Menu](#Menu)
   - [Input](#Input)
+- [examples](#examples)
 
 ## Usage
 
@@ -96,3 +101,11 @@ Menu is controlled by mouse clicks, if an item is already highlighted and clicke
 
 - `onChange` is being called with the index when user changes his highlighted item
 - `onSubmit` is being called with the index when user submits a choice
+
+## Examples
+
+To run a widget example clone this repo and go to the `_examples` directory. Then:
+
+```sh
+go run <widget-name>.go
+```
