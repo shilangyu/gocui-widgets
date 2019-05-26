@@ -1,5 +1,7 @@
 # gocui-widgets
 
+[![](https://img.shields.io/badge/godoc-reference-5272B4.svg)](http://godoc.org/github.com/shilangyu/gocui-widgets)
+
 Set of gocui widgets to help you build TUI apps. It is meant to use **with** [gocui](https://github.com/jroimartin/gocui) not instead.
 
 - [usage](#usage)
@@ -41,7 +43,7 @@ func pass(i int) {
 }
 menu := NewMenu("menu", []string{"item1", "item2"}, 0, 0, false, true, pass, pass)
 
-g.SetManagers(menu)
+g.SetManager(menu)
 
 if err := menu.Init(g); err != nil {
 	panic(err)
