@@ -1,6 +1,6 @@
 # gocui-widgets
 
-Collection of gocui widgets to help you build TUI apps. It is meant to use **with** [gocui](https://github.com/jroimartin/gocui) not instead.
+Set of gocui widgets to help you build TUI apps. It is meant to use **with** [gocui](https://github.com/jroimartin/gocui) not instead.
 
 - [usage](#usage)
 - [widgets](#widgets)
