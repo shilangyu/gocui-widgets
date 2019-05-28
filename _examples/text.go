@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/jroimartin/gocui"
-	"github.com/shilangyu/gocui-widgets"
 	"time"
+
+	"github.com/jroimartin/gocui"
+	widgets "github.com/shilangyu/gocui-widgets"
 )
 
 func main() {

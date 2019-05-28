@@ -3,7 +3,7 @@
 [![](https://img.shields.io/badge/godoc-reference-5272B4.svg)](http://godoc.org/github.com/shilangyu/gocui-widgets)
 [![](https://goreportcard.com/badge/github.com/shilangyu/gocui-widgets)](https://goreportcard.com/report/github.com/shilangyu/gocui-widgets)
 
-Set of gocui widgets with higher-level abstractions such as event listeners and changers to help you build TUI apps. It is meant to use **with** [gocui](https://github.com/jroimartin/gocui) not instead.
+Set of thin gocui widgets with higher-level abstractions such as event listeners and changers to help you build TUI apps. It is meant to use **with** [gocui](https://github.com/jroimartin/gocui) not instead.
 
 ```sh
 go get github.com/shilangyu/gocui-widgets
@@ -19,49 +19,41 @@ go get github.com/shilangyu/gocui-widgets
 
 ## Usage
 
-Each widgets implements:
+All widgets implement `gocui.Manager` therefore can be added as managers or rendered directly with `Widget.Layout(g)`.
 
-```go
-type Widget interface {
-	gocui.Manager
-	Name() string
-	Coord() (int, int)
-	Size() (int, int)
-}
-```
+All widgets expose their `*gocui.View` as well in the `Widget.View` property.
 
-Some widgets accept callback functions called `OnSomething` that are called when `Something` happens
+Some widgets accept callback functions called `OnSomething` that are called when `Something` happens.
 
-Some widgets have modifier methods called `ChangeSomething` that you call with `gocui.Update` whenever you need to change something. [Text](#Text) example:
-
-```go
-text := NewText("text", "bad text", false, false, 0, 0)
-
-g.Update(text.ChangeText("good text"))
-
-```
+Some widgets have changers methods called `ChangeSomething` that you call with `gocui.Update` whenever you need to change `Something`.
 
 Check the [\_examples](https://github.com/shilangyu/gocui-widgets/tree/master/_examples) to find out more and [godoc](http://godoc.org/github.com/shilangyu/gocui-widgets) for a more thorough documentation
 
 ## Widgets
 
-Common parameters:
-
-- `name`: name needed for gocui (ID)
-- `frame`: if true renders a frame around the widget
-- `center`: if true `x` and `y` is the center of the widget
-- `x`, `y`: x and y position of the widget
-- `w`, `h`: width and height of the widget
-
 ### Text
 
-Renders text in a given position
+Plain text
 
 ```go
 NewText(name, text string, frame, center bool, x, y int)
 ```
 
-- `ChangeText`: changes the inner text of the widget
+Parameters:
+
+| name   | description                                     |
+| ------ | ----------------------------------------------- |
+| name   | ID of your widget (passed to the gocui.View)    |
+| text   | value to the printed in your widget             |
+| frame  | if true a frame is rendered                     |
+| center | if true x and y become the center of the widget |
+| x, y   | coordinates of the widget                       |
+
+Changers:
+
+| name       | description                          |
+| ---------- | ------------------------------------ |
+| ChangeText | changes the inner text of the widget |
 
 ### Collection
 

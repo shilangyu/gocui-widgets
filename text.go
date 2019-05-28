@@ -9,10 +9,13 @@ import (
 
 // Text is a widget that displays text
 type Text struct {
+	// View is a pointer to the gocui view of this widget
+	View *gocui.View
+
 	name   string
-	Text   string
-	Frame  bool
-	Center bool
+	text   string
+	frame  bool
+	center bool
 	x, y   int
 	w, h   int
 }
@@ -30,34 +33,21 @@ func NewText(name, text string, frame, center bool, x, y int) *Text {
 		y = y - h/2
 	}
 
-	return &Text{name, text, frame, center, x, y, w, h}
-}
-
-// Name returns the widget name
-func (w *Text) Name() string {
-	return w.name
-}
-
-// Coord returns the x and y of the widget
-func (w *Text) Coord() (int, int) {
-	return w.x, w.y
-}
-
-// Size returns the width and height of the widget
-func (w *Text) Size() (int, int) {
-	return w.w, w.h
+	return &Text{nil, name, text, frame, center, x, y, w, h}
 }
 
 // Layout renders the Text widget
 func (w *Text) Layout(g *gocui.Gui) error {
 	v, err := g.SetView(w.name, w.x, w.y, w.x+w.w, w.y+w.h)
+	w.View = v
+
 	if err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
 
-		v.Frame = w.Frame
-		fmt.Fprint(v, w.Text)
+		v.Frame = w.frame
+		fmt.Fprint(v, w.text)
 	}
 
 	return nil
@@ -66,12 +56,8 @@ func (w *Text) Layout(g *gocui.Gui) error {
 // ChangeText changes the text within
 func (w *Text) ChangeText(s string) func(g *gocui.Gui) error {
 	return func(g *gocui.Gui) error {
-		v, err := g.View(w.name)
-		if err != nil {
-			return err
-		}
-		v.Clear()
-		fmt.Fprint(v, s)
+		w.View.Clear()
+		fmt.Fprint(w.View, s)
 
 		return nil
 	}
