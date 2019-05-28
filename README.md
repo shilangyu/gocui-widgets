@@ -57,11 +57,27 @@ Changers:
 
 ### Collection
 
-Renders a grouping frame with title
+Grouping frame with a title
 
 ```go
 NewCollection(name, title string, center bool, x, y int, w, h int)
 ```
+
+Parameters:
+
+| name   | description                                     |
+| ------ | ----------------------------------------------- |
+| name   | ID of your widget (passed to the gocui.View)    |
+| title  | title to be printed                             |
+| center | if true x and y become the center of the widget |
+| x, y   | coordinates of the widget                       |
+| w, h   | size of the widget                              |
+
+Changers:
+
+| name        | description                     |
+| ----------- | ------------------------------- |
+| ChangeTitle | changes the title of the widget |
 
 ### Input
 

@@ -6,9 +6,12 @@ import (
 
 // Collection is a widget that groups other widgets
 type Collection struct {
+	// View is a pointer to the gocui view of this widget
+	View *gocui.View
+
 	name   string
-	Title  string
-	Center bool
+	title  string
+	center bool
 	x, y   int
 	w, h   int
 }
@@ -24,34 +27,28 @@ func NewCollection(name, title string, center bool, x, y int, w, h int) *Collect
 		y = y - h/2
 	}
 
-	return &Collection{name, title, center, x, y, w, h}
-}
-
-// Name returns the widget name
-func (w *Collection) Name() string {
-	return w.name
-}
-
-// Coord returns the x and y of the widget
-func (w *Collection) Coord() (int, int) {
-	return w.x, w.y
-}
-
-// Size returns the width and height of the widget
-func (w *Collection) Size() (int, int) {
-	return w.w, w.h
+	return &Collection{nil, name, title, center, x, y, w, h}
 }
 
 // Layout renders the Collection widget
 func (w *Collection) Layout(g *gocui.Gui) error {
 	v, err := g.SetView(w.name, w.x, w.y, w.x+w.w, w.y+w.h)
+	w.View = v
 	if err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
 
-		v.Title = w.Title
+		v.Title = w.title
 	}
 
 	return nil
+}
+
+// ChangeTitle changes the title of the widget
+func (w *Collection) ChangeTitle(t string) func(g *gocui.Gui) error {
+	return func(g *gocui.Gui) error {
+		w.View.Title = t
+		return nil
+	}
 }
