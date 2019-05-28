@@ -83,6 +83,8 @@ func (w *Menu) onMouse(g *gocui.Gui, v *gocui.View) error {
 // Layout renders the Menu widget
 func (w *Menu) Layout(g *gocui.Gui) error {
 	v, err := g.SetView(w.name, w.x, w.y, w.x+w.w, w.y+w.h)
+	w.View = v
+
 	if err == gocui.ErrUnknownView {
 		if err := g.SetKeybinding(w.name, gocui.MouseLeft, gocui.ModNone, w.onMouse); err != nil {
 			return err
