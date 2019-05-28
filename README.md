@@ -80,6 +80,7 @@ NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocui.Edi
 ```
 
 - `onChange` is being called with the `gocui.EditorFunc` parameters when text is inputted (you dont have to call `gocui.DefaultEditor.Edit`, it calls it for you)
+- `ChangeText`: changes the inner text of the widget
 
 ### Menu
 

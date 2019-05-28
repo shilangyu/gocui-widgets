@@ -15,9 +15,11 @@ func main() {
 	}
 	defer g.Close()
 
+	var inputWi *widgets.Input
+
 	w, h := g.Size()
 	textWi := widgets.NewText("text", strings.Repeat(" ", w/4), false, true, 3*w/4, h/2)
-	inputWi := widgets.NewInput("input", true, true, w/4, h/2, w/4, 3, func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) {
+	inputWi = widgets.NewInput("input", true, true, w/4, h/2, w/4, 3, func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) {
 		s := ""
 		for _, char := range v.Buffer() {
 			if rand.Float64() < .5 {
@@ -27,6 +29,10 @@ func main() {
 			}
 		}
 		g.Update(textWi.ChangeText(s))
+
+		if len(s) > 10 {
+			g.Update(inputWi.ChangeText(""))
+		}
 	})
 
 	g.SetManager(textWi, inputWi)

@@ -1,6 +1,9 @@
 package widgets
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/jroimartin/gocui"
 )
 
@@ -70,4 +73,19 @@ func (w *Input) Layout(g *gocui.Gui) error {
 	v.Frame = w.Frame
 
 	return nil
+}
+
+// ChangeText changes the inner text
+func (w *Input) ChangeText(s string) func(g *gocui.Gui) error {
+	return func(g *gocui.Gui) error {
+		v, err := g.View(w.name)
+		if err != nil {
+			return err
+		}
+		v.Clear()
+		fmt.Fprint(v, s)
+		v.SetCursor(len(s), len(strings.Split(s, "\n"))-1)
+
+		return nil
+	}
 }
