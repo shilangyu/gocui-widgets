@@ -3,7 +3,7 @@
 [![](https://img.shields.io/badge/godoc-reference-5272B4.svg)](http://godoc.org/github.com/shilangyu/gocui-widgets)
 [![](https://goreportcard.com/badge/github.com/shilangyu/gocui-widgets)](https://goreportcard.com/report/github.com/shilangyu/gocui-widgets)
 
-Set of gocui widgets to help you build TUI apps. It is meant to use **with** [gocui](https://github.com/jroimartin/gocui) not instead.
+Set of gocui widgets with higher-level abstractions such as event listeners and changers to help you build TUI apps. It is meant to use **with** [gocui](https://github.com/jroimartin/gocui) not instead.
 
 ```sh
 go get github.com/shilangyu/gocui-widgets
@@ -41,7 +41,7 @@ g.Update(text.ChangeText("good text"))
 
 ```
 
-Check the [\_examples](https://github.com/shilangyu/gocui-widgets/tree/master/_examples) to find out more
+Check the [\_examples](https://github.com/shilangyu/gocui-widgets/tree/master/_examples) to find out more and [godoc](http://godoc.org/github.com/shilangyu/gocui-widgets) for a more thorough documentation
 
 ## Widgets
 
