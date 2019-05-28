@@ -33,6 +33,13 @@ func NewMenu(name string, items []string, x, y int, center, arrows bool, onChang
 		y = y - h/2
 	}
 
+	if onChange == nil {
+		onChange = func(i int) {}
+	}
+	if onSubmit == nil {
+		onSubmit = func(i int) {}
+	}
+
 	return &Menu{name, items, x, y, w, h, center, arrows, onChange, onSubmit, 0}
 }
 
@@ -66,9 +73,7 @@ func (w *Menu) onArrow(change int) func(g *gocui.Gui, v *gocui.View) error {
 			}
 			v.SetCursor(0, w.currItem)
 
-			if w.OnChange != nil {
-				w.OnChange(w.currItem)
-			}
+			w.OnChange(w.currItem)
 		}
 
 		return nil
@@ -80,9 +85,7 @@ func (w *Menu) onMouse(g *gocui.Gui, v *gocui.View) error {
 	_, currItem := v.Cursor()
 	if currItem != w.currItem {
 		w.currItem = currItem
-		if w.OnChange != nil {
-			w.OnChange(w.currItem)
-		}
+		w.OnChange(w.currItem)
 	} else {
 		w.OnSubmit(currItem)
 	}
