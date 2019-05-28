@@ -9,13 +9,16 @@ import (
 
 // Input is a widget allows for user input
 type Input struct {
+	// View is a pointer to the gocui view of this widget
+	View *gocui.View
+
 	name     string
-	Text     string
-	Frame    bool
-	Center   bool
+	text     string
+	frame    bool
+	center   bool
 	x, y     int
 	w, h     int
-	OnChange gocui.EditorFunc
+	onChange gocui.EditorFunc
 }
 
 // NewInput initializes the Input widget
@@ -34,22 +37,7 @@ func NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocu
 		onChange = func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) {}
 	}
 
-	return &Input{name, "", frame, center, x, y, w, h, onChange}
-}
-
-// Name returns the widget name
-func (w *Input) Name() string {
-	return w.name
-}
-
-// Coord returns the x and y of the widget
-func (w *Input) Coord() (int, int) {
-	return w.x, w.y
-}
-
-// Size returns the width and height of the widget
-func (w *Input) Size() (int, int) {
-	return w.w, w.h
+	return &Input{nil, name, "", frame, center, x, y, w, h, onChange}
 }
 
 // Layout renders the Input widget
@@ -57,10 +45,12 @@ func (w *Input) Layout(g *gocui.Gui) error {
 	g.Cursor = true
 
 	v, err := g.SetView(w.name, w.x, w.y, w.x+w.w, w.y+w.h)
+	w.View = v
+
 	if err == gocui.ErrUnknownView {
 		v.Editor = gocui.EditorFunc(func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) {
 			gocui.DefaultEditor.Edit(v, key, ch, mod)
-			w.OnChange(v, key, ch, mod)
+			w.onChange(v, key, ch, mod)
 		})
 		g.SetCurrentView(w.name)
 	} else if err != nil {
@@ -70,7 +60,7 @@ func (w *Input) Layout(g *gocui.Gui) error {
 	v.Editable = true
 	v.Wrap = true
 
-	v.Frame = w.Frame
+	v.Frame = w.frame
 
 	return nil
 }
@@ -78,13 +68,9 @@ func (w *Input) Layout(g *gocui.Gui) error {
 // ChangeText changes the inner text
 func (w *Input) ChangeText(s string) func(g *gocui.Gui) error {
 	return func(g *gocui.Gui) error {
-		v, err := g.View(w.name)
-		if err != nil {
-			return err
-		}
-		v.Clear()
-		fmt.Fprint(v, s)
-		v.SetCursor(len(s), len(strings.Split(s, "\n"))-1)
+		w.View.Clear()
+		fmt.Fprint(w.View, s)
+		w.View.SetCursor(len(s), len(strings.Split(s, "\n"))-1)
 
 		return nil
 	}

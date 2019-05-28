@@ -81,14 +81,33 @@ Changers:
 
 ### Input
 
-Renders an input
+Input field
 
 ```go
 NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocui.EditorFunc)
 ```
 
-- `onChange` is being called with the `gocui.EditorFunc` parameters when text is inputted (you dont have to call `gocui.DefaultEditor.Edit`, it calls it for you)
-- `ChangeText`: changes the inner text of the widget
+Parameters:
+
+| name   | description                                     |
+| ------ | ----------------------------------------------- |
+| name   | ID of your widget (passed to the gocui.View)    |
+| frame  | if true a frame is rendered                     |
+| center | if true x and y become the center of the widget |
+| x, y   | coordinates of the widget                       |
+| w, h   | size of the widget                              |
+
+Changers:
+
+| name       | description            |
+| ---------- | ---------------------- |
+| ChangeText | changes the input text |
+
+Listeners:
+
+| name     | description                                                 |
+| -------- | ----------------------------------------------------------- |
+| onChange | a gocui.EditorFunc function that lets you listen to changes |
 
 ### Menu
 
