@@ -41,21 +41,6 @@ g.Update(text.ChangeText("good text"))
 
 ```
 
-Some widgets have to be 'inited' because they need to set keybinds. [Menu](#Menu) example:
-
-```go
-func pass(i int) {
-	return
-}
-menu := NewMenu("menu", []string{"item1", "item2"}, 0, 0, false, true, pass, pass)
-
-g.SetManager(menu)
-
-if err := menu.Init(g); err != nil {
-	panic(err)
-}
-```
-
 Check the [\_examples](https://github.com/shilangyu/gocui-widgets/tree/master/_examples) to find out more
 
 ## Widgets
@@ -92,13 +77,13 @@ NewCollection(name, title string, center bool, x, y int, w, h int)
 
 ### Menu
 
-Renders a menu (has to be inited)
+Renders a menu
 
 ```go
 NewMenu(name string, items []string, x, y int, center, arrows bool, onChange, onSubmit func(i int))
 ```
 
-Menu is controlled by mouse clicks, if an item is already highlighted and clicked it is counted as a submit action. If arrows is true, the menu will also be controlled by keyboard arrows where <kbd>Enter</kbd> is submit action.
+Menu is controlled by mouse clicks (therefore make sure to set `g.Mouse` to true), if an item is already highlighted and clicked it is counted as a submit action. If arrows is true, the menu will also be controlled by keyboard arrows where <kbd>Enter</kbd> is submit action.
 
 - `onChange` is being called with the index when user changes his highlighted item
 - `onSubmit` is being called with the index when user submits a choice

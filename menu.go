@@ -51,32 +51,6 @@ func (w *Menu) Size() (int, int) {
 	return w.w, w.h
 }
 
-// Init initializes the gocui side of things
-func (w *Menu) Init(g *gocui.Gui) error {
-	g.Mouse = true
-
-	if err := g.SetKeybinding(w.name, gocui.MouseLeft, gocui.ModNone, w.onMouse); err != nil {
-		return err
-	}
-
-	if w.Arrows {
-		if err := g.SetKeybinding(w.name, gocui.KeyArrowDown, gocui.ModNone, w.onArrow(1)); err != nil {
-			return err
-		}
-		if err := g.SetKeybinding(w.name, gocui.KeyArrowUp, gocui.ModNone, w.onArrow(-1)); err != nil {
-			return err
-		}
-		if err := g.SetKeybinding(w.name, gocui.KeyEnter, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
-			w.OnSubmit(w.currItem)
-			return nil
-		}); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
 // handles keystroke events
 func (w *Menu) onArrow(change int) func(g *gocui.Gui, v *gocui.View) error {
 	return func(g *gocui.Gui, v *gocui.View) error {
@@ -118,19 +92,36 @@ func (w *Menu) onMouse(g *gocui.Gui, v *gocui.View) error {
 // Layout renders the Menu widget
 func (w *Menu) Layout(g *gocui.Gui) error {
 	v, err := g.SetView(w.name, w.x, w.y, w.x+w.w, w.y+w.h)
-	if err != nil {
-		if err != gocui.ErrUnknownView {
+	if err == gocui.ErrUnknownView {
+		if err := g.SetKeybinding(w.name, gocui.MouseLeft, gocui.ModNone, w.onMouse); err != nil {
 			return err
 		}
-		g.SetCurrentView(w.name)
 
-		v.Highlight = true
-		v.SelBgColor = gocui.ColorGreen
-		v.SelFgColor = gocui.ColorBlack
-
-		for _, text := range w.Items {
-			fmt.Fprintln(v, text)
+		if w.Arrows {
+			if err := g.SetKeybinding(w.name, gocui.KeyArrowDown, gocui.ModNone, w.onArrow(1)); err != nil {
+				return err
+			}
+			if err := g.SetKeybinding(w.name, gocui.KeyArrowUp, gocui.ModNone, w.onArrow(-1)); err != nil {
+				return err
+			}
+			if err := g.SetKeybinding(w.name, gocui.KeyEnter, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
+				w.OnSubmit(w.currItem)
+				return nil
+			}); err != nil {
+				return err
+			}
+			g.SetCurrentView(w.name)
 		}
+	} else if err != nil {
+		return err
+	}
+
+	v.Highlight = true
+	v.SelBgColor = gocui.ColorGreen
+	v.SelFgColor = gocui.ColorBlack
+
+	for _, text := range w.Items {
+		fmt.Fprintln(v, text)
 	}
 
 	return nil
