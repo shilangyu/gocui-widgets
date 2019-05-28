@@ -6,18 +6,19 @@ import (
 
 // Input is a widget allows for user input
 type Input struct {
-	name   string
-	Text   string
-	Frame  bool
-	Center bool
-	x, y   int
-	w, h   int
+	name     string
+	Text     string
+	Frame    bool
+	Center   bool
+	x, y     int
+	w, h     int
+	OnChange gocui.EditorFunc
 }
 
 // NewInput initializes the Input widget
 // if frame is true a border is rendered
 // if center is true x and y becomes the center not start
-func NewInput(name string, frame, center bool, x, y int, w, h int) *Input {
+func NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocui.EditorFunc) *Input {
 	w--
 	h--
 
@@ -26,7 +27,11 @@ func NewInput(name string, frame, center bool, x, y int, w, h int) *Input {
 		y = y - h/2
 	}
 
-	return &Input{name, "", frame, center, x, y, w, h}
+	if onChange == nil {
+		onChange = func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) {}
+	}
+
+	return &Input{name, "", frame, center, x, y, w, h, onChange}
 }
 
 // Name returns the widget name
@@ -49,33 +54,20 @@ func (w *Input) Layout(g *gocui.Gui) error {
 	g.Cursor = true
 
 	v, err := g.SetView(w.name, w.x, w.y, w.x+w.w, w.y+w.h)
-	if err != nil {
-		if err != gocui.ErrUnknownView {
-			return err
-		}
-
-		v.Editable = true
-		v.Wrap = true
-
-		v.Frame = w.Frame
-		if _, err := g.SetCurrentView(w.name); err != nil {
-			return err
-		}
+	if err == gocui.ErrUnknownView {
+		v.Editor = gocui.EditorFunc(func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) {
+			gocui.DefaultEditor.Edit(v, key, ch, mod)
+			w.OnChange(v, key, ch, mod)
+		})
+		g.SetCurrentView(w.name)
+	} else if err != nil {
+		return nil
 	}
+
+	v.Editable = true
+	v.Wrap = true
+
+	v.Frame = w.Frame
 
 	return nil
 }
-
-// // ChangeText changes the text within
-// func (w *Text) ChangeText(s string) func(g *gocui.Gui) error {
-// 	return func(g *gocui.Gui) error {
-// 		v, err := g.View(w.name)
-// 		if err != nil {
-// 			return err
-// 		}
-// 		v.Clear()
-// 		fmt.Fprint(v, s)
-
-// 		return nil
-// 	}
-// }

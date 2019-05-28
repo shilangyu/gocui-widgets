@@ -73,7 +73,13 @@ NewCollection(name, title string, center bool, x, y int, w, h int)
 
 ### Input
 
-/_ IN PROGRESS _/
+Renders an input
+
+```go
+NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocui.EditorFunc)
+```
+
+- `onChange` is being called with the `gocui.EditorFunc` parameters when text is inputted (you dont have to call `gocui.DefaultEditor.Edit`, it calls it for you)
 
 ### Menu
 
