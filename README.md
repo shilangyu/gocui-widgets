@@ -92,16 +92,28 @@ NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocui.Edi
 
 ### Menu
 
-Renders a menu
+Items menu (make sure to set `g.Mouse` to true for mouse support)
 
 ```go
-NewMenu(name string, items []string, x, y int, center, arrows bool, onChange, onSubmit func(i int))
+NewMenu(name string, items []string, center, arrows bool, x, y int, onChange, onSubmit func(i int))
 ```
 
-Menu is controlled by mouse clicks (therefore make sure to set `g.Mouse` to true), if an item is already highlighted and clicked it is counted as a submit action. If arrows is true, the menu will also be controlled by keyboard arrows where <kbd>Enter</kbd> is submit action.
+Parameters:
 
-- `onChange` is being called with the index when user changes his highlighted item
-- `onSubmit` is being called with the index when user submits a choice
+| name   | description                                                          |
+| ------ | -------------------------------------------------------------------- |
+| name   | ID of your widget (passed to the gocui.View)                         |
+| items  | slice of items in your menu                                          |
+| center | if true x and y become the center of the widget                      |
+| arrows | if true menu is also controlled with arrows and submitted with enter |
+| x, y   | coordinates of the widget                                            |
+
+Listeners:
+
+| name     | description                                                                                                      |
+| -------- | ---------------------------------------------------------------------------------------------------------------- |
+| onChange | accepts the index of currently selected item, ran whenever a new item is selected                                |
+| onSubmit | accepts the index of the submitted item, ran whenever an item is double clicked or pressed with <kbd>Enter</kbd> |
 
 ## Examples
 
