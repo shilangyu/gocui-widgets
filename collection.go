@@ -8,6 +8,8 @@ import (
 type Collection struct {
 	// View is a pointer to the gocui view of this widget
 	View *gocui.View
+	// Type is an enum WidgetType
+	Type WidgetType
 
 	name   string
 	title  string
@@ -27,7 +29,7 @@ func NewCollection(name, title string, center bool, x, y int, w, h int) *Collect
 		y = y - h/2
 	}
 
-	return &Collection{nil, name, title, center, x, y, w, h}
+	return &Collection{nil, TypeCollection, name, title, center, x, y, w, h}
 }
 
 // Layout renders the Collection widget

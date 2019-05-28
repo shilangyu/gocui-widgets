@@ -11,6 +11,8 @@ import (
 type Input struct {
 	// View is a pointer to the gocui view of this widget
 	View *gocui.View
+	// Type is an enum WidgetType
+	Type WidgetType
 
 	name     string
 	text     string
@@ -37,7 +39,7 @@ func NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocu
 		onChange = func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) {}
 	}
 
-	return &Input{nil, name, "", frame, center, x, y, w, h, onChange}
+	return &Input{nil, TypeInput, name, "", frame, center, x, y, w, h, onChange}
 }
 
 // Layout renders the Input widget

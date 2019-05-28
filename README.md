@@ -21,7 +21,9 @@ go get github.com/shilangyu/gocui-widgets
 
 All widgets implement `gocui.Manager` therefore can be added as managers or rendered directly with `Widget.Layout(g)`.
 
-All widgets expose their `*gocui.View` as well in the `Widget.View` property.
+All widgets expose their `*gocui.View` in the `Widget.View` property.
+
+All widget have a widget type to distinguish them apart in the `Widget.Type` property.
 
 Some widgets accept callback functions called `OnSomething` that are called when `Something` happens.
 

@@ -12,6 +12,8 @@ import (
 type Menu struct {
 	// View is a pointer to the gocui view of this widget
 	View *gocui.View
+	// Type is an enum WidgetType
+	Type WidgetType
 
 	name     string
 	items    []string
@@ -43,7 +45,7 @@ func NewMenu(name string, items []string, center, arrows bool, x, y int, onChang
 		onSubmit = func(i int) {}
 	}
 
-	return &Menu{nil, name, items, x, y, w, h, center, arrows, onChange, onSubmit, 0}
+	return &Menu{nil, TypeMenu, name, items, x, y, w, h, center, arrows, onChange, onSubmit, 0}
 }
 
 // handles keystroke events

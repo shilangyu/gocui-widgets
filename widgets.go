@@ -27,3 +27,17 @@ Creating a widget is easy:
 To see more please visit '_examples/'
 */
 package widgets
+
+// WidgetType is a enum describing the widget
+type WidgetType int
+
+const (
+	// TypeText for Text widget
+	TypeText WidgetType = iota
+	// TypeMenu for Menu widget
+	TypeMenu
+	// TypeCollection for Collection widget
+	TypeCollection
+	// TypeInput for Input widget
+	TypeInput
+)

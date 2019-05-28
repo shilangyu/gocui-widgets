@@ -11,6 +11,8 @@ import (
 type Text struct {
 	// View is a pointer to the gocui view of this widget
 	View *gocui.View
+	// Type is an enum WidgetType
+	Type WidgetType
 
 	name   string
 	text   string
@@ -33,7 +35,7 @@ func NewText(name, text string, frame, center bool, x, y int) *Text {
 		y = y - h/2
 	}
 
-	return &Text{nil, name, text, frame, center, x, y, w, h}
+	return &Text{nil, TypeText, name, text, frame, center, x, y, w, h}
 }
 
 // Layout renders the Text widget
