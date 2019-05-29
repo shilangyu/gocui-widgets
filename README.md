@@ -86,7 +86,7 @@ Changers:
 Input field
 
 ```go
-NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocui.EditorFunc)
+NewInput(name string, frame, center bool, x, y int, w, h int, onChange func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) bool)
 ```
 
 Parameters:
@@ -107,9 +107,9 @@ Changers:
 
 Listeners:
 
-| name     | description                                                 |
-| -------- | ----------------------------------------------------------- |
-| onChange | a gocui.EditorFunc function that lets you listen to changes |
+| name     | description                                                                                                                       |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| onChange | a gocui.EditorFunc function that returns a bool, if returned false this change wont be accepted and the input will stay unchanged |
 
 ### Menu
 

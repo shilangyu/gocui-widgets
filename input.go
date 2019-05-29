@@ -20,13 +20,13 @@ type Input struct {
 	center   bool
 	x, y     int
 	w, h     int
-	onChange gocui.EditorFunc
+	onChange func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) bool
 }
 
 // NewInput initializes the Input widget
 // if frame is true a border is rendered
 // if center is true x and y becomes the center not start
-func NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocui.EditorFunc) *Input {
+func NewInput(name string, frame, center bool, x, y int, w, h int, onChange func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) bool) *Input {
 	w--
 	h--
 
@@ -36,7 +36,7 @@ func NewInput(name string, frame, center bool, x, y int, w, h int, onChange gocu
 	}
 
 	if onChange == nil {
-		onChange = func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) {}
+		onChange = func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) bool { return true }
 	}
 
 	return &Input{nil, TypeInput, name, "", frame, center, x, y, w, h, onChange}
@@ -51,8 +51,9 @@ func (w *Input) Layout(g *gocui.Gui) error {
 
 	if err == gocui.ErrUnknownView {
 		v.Editor = gocui.EditorFunc(func(v *gocui.View, key gocui.Key, ch rune, mod gocui.Modifier) {
-			gocui.DefaultEditor.Edit(v, key, ch, mod)
-			w.onChange(v, key, ch, mod)
+			if w.onChange(v, key, ch, mod) {
+				gocui.DefaultEditor.Edit(v, key, ch, mod)
+			}
 		})
 		g.SetCurrentView(w.name)
 	} else if err != nil {
