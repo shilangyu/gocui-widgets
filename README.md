@@ -136,6 +136,12 @@ Listeners:
 | onChange | accepts the index of currently selected item, ran whenever a new item is selected                                |
 | onSubmit | accepts the index of the submitted item, ran whenever an item is double clicked or pressed with <kbd>Enter</kbd> |
 
+Changers:
+
+| name           | description                    |
+| -------------- | ------------------------------ |
+| ChangeSelected | changes the selected menu item |
+
 ## Examples
 
 To run a widget example clone this repo and go to the `_examples` directory. Then:

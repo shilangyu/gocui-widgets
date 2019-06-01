@@ -121,3 +121,13 @@ func (w *Menu) Layout(g *gocui.Gui) error {
 
 	return nil
 }
+
+// ChangeSelected changes the selected menu item
+func (w *Menu) ChangeSelected(i int) func(g *gocui.Gui) error {
+	return func(g *gocui.Gui) error {
+		w.View.SetCursor(0, i)
+		w.currItem = i
+
+		return nil
+	}
+}

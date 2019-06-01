@@ -22,7 +22,7 @@ func main() {
 	}
 
 	w, h := g.Size()
-	textWi1 := widgets.NewText("text1", "i see you selected #1", true, true, w/4, h/2)
+	textWi1 := widgets.NewText("text1", "i see you selected #2", true, true, w/4, h/2)
 	textWi2 := widgets.NewText("text2", "                    ", true, true, 3*w/4, h/2)
 	menuWi := widgets.NewMenu("menu", menuItems, true, true, w/2, h/2, func(i int) {
 		g.Update(textWi1.ChangeText("i see you selected #" + strconv.Itoa(i+1)))
@@ -31,6 +31,8 @@ func main() {
 	})
 
 	g.SetManager(textWi1, textWi2, menuWi)
+
+	g.Update(menuWi.ChangeSelected(1))
 
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
 		panic(err)
