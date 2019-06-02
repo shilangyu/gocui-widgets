@@ -55,7 +55,6 @@ func (w *Input) Layout(g *gocui.Gui) error {
 				gocui.DefaultEditor.Edit(v, key, ch, mod)
 			}
 		})
-		g.SetCurrentView(w.name)
 	} else if err != nil {
 		return nil
 	}

@@ -43,6 +43,11 @@ func main() {
 
 	g.SetManager(textWi, inputWi)
 
+	g.Update(func(g *gocui.Gui) error {
+		g.SetCurrentView("input")
+		return nil
+	})
+
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
 		panic(err)
 	}
