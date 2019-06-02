@@ -121,13 +121,12 @@ NewMenu(name string, items []string, center, arrows bool, x, y int, onChange, on
 
 Parameters:
 
-| name   | description                                                          |
-| ------ | -------------------------------------------------------------------- |
-| name   | ID of your widget (passed to the gocui.View)                         |
-| items  | slice of items in your menu                                          |
-| center | if true x and y become the center of the widget                      |
-| arrows | if true menu is also controlled with arrows and submitted with enter |
-| x, y   | coordinates of the widget                                            |
+| name   | description                                     |
+| ------ | ----------------------------------------------- |
+| name   | ID of your widget (passed to the gocui.View)    |
+| items  | slice of items in your menu                     |
+| center | if true x and y become the center of the widget |
+| x, y   | coordinates of the widget                       |
 
 Listeners:
 

@@ -20,15 +20,13 @@ type Menu struct {
 	x, y     int
 	w, h     int
 	center   bool
-	arrows   bool
 	onChange func(i int)
 	onSubmit func(i int)
 	currItem int
 }
 
 // NewMenu initializes the Menu widget
-// if arrows is true menu will be controlled through arrows as well
-func NewMenu(name string, items []string, center, arrows bool, x, y int, onChange, onSubmit func(i int)) *Menu {
+func NewMenu(name string, items []string, center bool, x, y int, onChange, onSubmit func(i int)) *Menu {
 	w, h := utils.StringDimensions(strings.Join(items, "\n"))
 	w++
 	h++
@@ -45,7 +43,7 @@ func NewMenu(name string, items []string, center, arrows bool, x, y int, onChang
 		onSubmit = func(i int) {}
 	}
 
-	return &Menu{nil, TypeMenu, name, items, x, y, w, h, center, arrows, onChange, onSubmit, 0}
+	return &Menu{nil, TypeMenu, name, items, x, y, w, h, center, onChange, onSubmit, 0}
 }
 
 // handles keystroke events
@@ -92,20 +90,17 @@ func (w *Menu) Layout(g *gocui.Gui) error {
 			return err
 		}
 
-		if w.arrows {
-			if err := g.SetKeybinding(w.name, gocui.KeyArrowDown, gocui.ModNone, w.onArrow(1)); err != nil {
-				return err
-			}
-			if err := g.SetKeybinding(w.name, gocui.KeyArrowUp, gocui.ModNone, w.onArrow(-1)); err != nil {
-				return err
-			}
-			if err := g.SetKeybinding(w.name, gocui.KeyEnter, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
-				w.onSubmit(w.currItem)
-				return nil
-			}); err != nil {
-				return err
-			}
-			g.SetCurrentView(w.name)
+		if err := g.SetKeybinding(w.name, gocui.KeyArrowDown, gocui.ModNone, w.onArrow(1)); err != nil {
+			return err
+		}
+		if err := g.SetKeybinding(w.name, gocui.KeyArrowUp, gocui.ModNone, w.onArrow(-1)); err != nil {
+			return err
+		}
+		if err := g.SetKeybinding(w.name, gocui.KeyEnter, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
+			w.onSubmit(w.currItem)
+			return nil
+		}); err != nil {
+			return err
 		}
 	} else if err != nil {
 		return err
