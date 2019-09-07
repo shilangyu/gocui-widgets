@@ -28,7 +28,7 @@ type Modal struct {
 }
 
 // NewModal initializes the Menu widget
-func NewModal(name string, text string, choices []string, center bool, x, y int, onChange func(i int), onSubmit func(i int)) *Modal {
+func NewModal(name string, text string, choices []string, center bool, x, y int, onChange, onSubmit func(i int)) *Modal {
 	max1, h := utils.StringDimensions(text)
 	max2 := len(strings.Join(choices, " "))
 	w := int(math.Max(float64(max1), float64(max2)))
