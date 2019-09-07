@@ -40,4 +40,6 @@ const (
 	TypeCollection
 	// TypeInput for Input widget
 	TypeInput
+	// TypeModal for Modal widget
+	TypeModal
 )
