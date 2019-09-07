@@ -151,7 +151,7 @@ func (w *Modal) Layout(g *gocui.Gui) error {
 	return nil
 }
 
-// Kill "kills" the modal, which just hides it
-func (w *Modal) Kill() {
+// Hide "kills" the modal
+func (w *Modal) Hide() {
 	w.killed = true
 }

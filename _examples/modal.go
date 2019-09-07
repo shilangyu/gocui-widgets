@@ -25,7 +25,7 @@ func main() {
 	modalWi = widgets.NewModal("modal", "Hey im a pop-up.\nOk bye", choices, true, w/2, h/2, nil, func(i int) {
 		switch i {
 		case 0:
-			modalWi.Kill()
+			modalWi.Hide()
 		case 1:
 			g.Close()
 			os.Exit(0)
