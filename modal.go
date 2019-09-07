@@ -25,6 +25,7 @@ type Modal struct {
 	onChange func(i int)
 	onSubmit func(i int)
 	currItem int
+	killed   bool
 }
 
 // NewModal initializes the Menu widget
@@ -48,13 +49,14 @@ func NewModal(name string, text string, choices []string, center bool, x, y int,
 		onSubmit = func(i int) {}
 	}
 
-	return &Modal{nil, TypeModal, name, text, choices, x, y, w, h, center, onChange, onSubmit, 0}
+	return &Modal{nil, TypeModal, name, text, choices, x, y, w, h, center, onChange, onSubmit, 0, false}
 }
 
 // handles keystroke events
 func (w *Modal) onArrow(change int) func(g *gocui.Gui, v *gocui.View) error {
 	return func(g *gocui.Gui, v *gocui.View) error {
 		w.currItem += change
+		fmt.Println("cock")
 		if w.currItem == -1 {
 			w.currItem++
 		} else if w.currItem == len(w.choices) {
@@ -99,10 +101,19 @@ func (w *Modal) onMouse(g *gocui.Gui, v *gocui.View) error {
 
 // Layout renders the Modal widget
 func (w *Modal) Layout(g *gocui.Gui) error {
+	if w.killed {
+		g.DeleteKeybindings("modal")
+		g.DeleteView("modal")
+		w.View.Frame = false
+		w.View.Clear()
+		return nil
+	}
+
 	v, err := g.SetView(w.name, w.x, w.y, w.x+w.w, w.y+w.h)
 	w.View = v
 
 	if err == gocui.ErrUnknownView {
+		fmt.Println("setting keybinds")
 		if err := g.SetKeybinding(w.name, gocui.MouseLeft, gocui.ModNone, w.onMouse); err != nil {
 			return err
 		}
@@ -138,4 +149,9 @@ func (w *Modal) Layout(g *gocui.Gui) error {
 	fmt.Fprintf(v, "%s%s", strings.Repeat(" ", w.w-len(strings.Join(w.choices, " "))-1), joinedChoices)
 
 	return nil
+}
+
+// Kill "kills" the modal, which just hides it
+func (w *Modal) Kill() {
+	w.killed = true
 }
