@@ -168,6 +168,12 @@ Listeners:
 | onChange | accepts the index of currently selected item, ran whenever a new item is selected                                |
 | onSubmit | accepts the index of the submitted item, ran whenever an item is double clicked or pressed with <kbd>Enter</kbd> |
 
+Hide with
+
+```go
+modal.Hide()
+```
+
 ## Examples
 
 To run a widget example clone this repo and go to the `_examples` directory. Then:
