@@ -56,7 +56,6 @@ func NewModal(name string, text string, choices []string, center bool, x, y int,
 func (w *Modal) onArrow(change int) func(g *gocui.Gui, v *gocui.View) error {
 	return func(g *gocui.Gui, v *gocui.View) error {
 		w.currItem += change
-		fmt.Println("cock")
 		if w.currItem == -1 {
 			w.currItem++
 		} else if w.currItem == len(w.choices) {
@@ -113,7 +112,6 @@ func (w *Modal) Layout(g *gocui.Gui) error {
 	w.View = v
 
 	if err == gocui.ErrUnknownView {
-		fmt.Println("setting keybinds")
 		if err := g.SetKeybinding(w.name, gocui.MouseLeft, gocui.ModNone, w.onMouse); err != nil {
 			return err
 		}
