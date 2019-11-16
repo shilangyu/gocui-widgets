@@ -2,6 +2,7 @@
 
 [![](https://img.shields.io/badge/godoc-reference-5272B4.svg)](http://godoc.org/github.com/shilangyu/gocui-widgets)
 [![](https://goreportcard.com/badge/github.com/shilangyu/gocui-widgets)](https://goreportcard.com/report/github.com/shilangyu/gocui-widgets)
+![](https://github.com/shilangyu/gocui-widgets/workflows/build/badge.svg)
 
 Set of thin gocui widgets with higher-level abstractions such as event listeners and changers to help you build TUI apps. It is meant to use **with** [gocui](https://github.com/jroimartin/gocui) not instead.
 
